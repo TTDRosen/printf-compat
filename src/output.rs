@@ -147,13 +147,22 @@ macro_rules! define_numeric {
                     $width = d.0 as i32 + 1;
                 }
             }
-            write!(
-                $w,
-                concat!("{:width$.prec$", $ty, "}"),
-                $data,
-                width = $width as usize,
-                prec = $precision as usize
-            )
+            if $width == 0 {
+                write!(
+                    $w,
+                    concat!("{:0prec$", $ty, "}"),
+                    $data,
+                    prec = $precision as usize
+                )
+            } else {
+                write!(
+                    $w,
+                    concat!("{:width$.prec$", $ty, "}"),
+                    $data,
+                    width = $width as usize,
+                    prec = $precision as usize
+                )
+            }
         }
     }};
 }
